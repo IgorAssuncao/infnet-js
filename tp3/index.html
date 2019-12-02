@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="app/app.css" />
+    <link rel="stylesheet" href="app.css" />
   </head>
 
   <body>
@@ -12,6 +12,15 @@
     <div id="q5"></div>
     <div id="q6"></div>
 
+    <script>
+      var app = {};
+      app.getComponente = function(nome) {
+        if (!app[nome]) {
+          app[nome] = { $ctrl: {} };
+        }
+        return app[nome];
+      };
+    </script>
     <script src="q1.js"></script>
     <script src="q2.js"></script>
     <script src="q3.js"></script>
