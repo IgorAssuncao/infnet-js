@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: 50px;
+  width: 50px;
+}
+
+.tabuleiro {
+  display: flex;
+}
