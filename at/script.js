@@ -127,19 +127,21 @@ function startGame() {
 
   setTimeout(() => {
     if (app.gameStarted) unflipAllCards();
+    app.interval = setInterval(() => {
+      if (app.points < 8) {
+        app.timer++;
+        updateTimer();
+      }
+    }, 1000);
   }, 3000);
 
   app.timer = 0;
-
-  setInterval(() => {
-    if (app.points < 8) {
-      ++app.timer;
-      updateTimer();
-    }
-  }, 1000);
 }
 
 function stopGame() {
+  clearInterval(app.interval);
+  app.interval = 0;
+  
   cleanUp();
   initializeBoard();
   app.gameStarted = false;
@@ -148,6 +150,10 @@ function stopGame() {
   app.cardsMatched = [];
   app.cardsOpen = [];
   app.timer = 0;
+
+  updateScore();
+
+  alert('O jogo parou');
 }
 
 function cleanUp() {
@@ -254,7 +260,9 @@ function mountCardHtml(card, index) {
 
   return divCard;
 }
+
 function flipCard(card) {
+  card.onclick = "";
   card.childNodes[1].animate(
     [
       {
@@ -322,6 +330,7 @@ function unflipCard(card) {
   );
   card.childNodes[0].style.display = "none";
   card.childNodes[1].style.display = "block";
+  card.onclick = cardOpen;
 }
 
 function flipAllCards() {
@@ -363,12 +372,12 @@ function congratulations() {
   button.onclick = () => {
     cleanUp();
     initializeBoard();
-    startGame();
   };
 
   const mensagem = document.createElement("mensagem");
   mensagem.setAttribute("id", "mensagem");
   mensagem.innerHTML = "Parabens, voce venceu";
+  alert("Parabens, voce venceu")
   mensagem.style.display = "block";
 
   document.getElementById("tabuleiro").appendChild(mensagem);
@@ -379,7 +388,7 @@ function congratulations() {
   rankingParapgraph.innerHTML = "<br>Ranking:<br>";
 
   for (element in ranking) {
-    rankingParapgraph.innerHTML += `${element} - Movimentos: ${ranking[element].movimentos} s - Pontos: ${ranking[element].pontos}<br>`;
+    rankingParapgraph.innerHTML += `${element} s - Movimentos: ${ranking[element].movimentos} - Pontos: ${ranking[element].pontos}<br>`;
   }
   body.appendChild(rankingParapgraph);
 }
